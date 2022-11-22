@@ -36,7 +36,7 @@ import edu.ifgoiano.example.LostAndfound.service.ThingService;
 import edu.ifgoiano.example.LostAndfound.service.validation.UnsupportedException;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
 @RestController
 @RequestMapping("/api/thing")
 public class ThingController 
