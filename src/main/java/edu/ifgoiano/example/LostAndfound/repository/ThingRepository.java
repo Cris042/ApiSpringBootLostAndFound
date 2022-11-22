@@ -7,13 +7,13 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import edu.ifgoiano.example.LostAndfound.models.Object;
+import edu.ifgoiano.example.LostAndfound.models.Thing;
 
 @Repository
-public interface ObjectRepository extends JpaRepository<Object, UUID> 
+public interface ThingRepository extends JpaRepository<Thing, UUID> 
 {
    Boolean existsByName(String name);
-   Optional<Object> findByName(String name);
+   Optional<Thing> findByName(String name);
    boolean existsById(UUID id);
-   Optional<Object> findById(UUID id);
+   Optional<Thing> findById(UUID id);
 }

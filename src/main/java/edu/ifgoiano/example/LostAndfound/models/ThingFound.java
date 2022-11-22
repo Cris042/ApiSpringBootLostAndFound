@@ -11,14 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "objectfound")
-public class ObjectFound 
+@Table(name = "thingfound")
+public class ThingFound 
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Column(nullable = false)
-    private UUID idUser;
+    private Long idUser;
     @Column(nullable = false)
     private UUID idObject;
     @Column(nullable = false)
@@ -35,12 +35,12 @@ public class ObjectFound
         this.idObject = idObject;
     }
 
-    public UUID getIdUser() 
+    public Long getIdUser() 
     {
         return idUser;
     }
 
-    public void setIdUser(UUID idUser)
+    public void setIdUser(Long idUser)
     {
         this.idUser = idUser;
     }

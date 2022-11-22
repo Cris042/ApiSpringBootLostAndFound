@@ -2,20 +2,34 @@ package edu.ifgoiano.example.LostAndfound.dtos;
 
 import javax.validation.constraints.NotBlank;
 
-public class ObjectDTO 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.lang.Nullable;
+
+public class ThingDTO extends RepresentationModel<ThingDTO>
 {
+  
     @NotBlank
     private String name;
     @NotBlank
     private String description;
     @NotBlank
+    @Nullable
     private String lost;
+    @NotBlank
+    @Nullable
+    private String imageUrl;
 
-    public ObjectDTO( String name, String description, String lost )
+    public ThingDTO()
+    {
+
+    }
+
+    public ThingDTO( String name, String description, String lost, String imageUrl )
     {
         this.name = name;
         this.description = description;
         this.lost = lost;
+        this.imageUrl = imageUrl != null ? imageUrl : "Defalt.pnj";
     }
 
     public String getLost()
@@ -43,5 +57,15 @@ public class ObjectDTO
     public void setName(String name) 
     {
         this.name = name;
+    }
+
+    public String getImageUrl() 
+    {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) 
+    {
+        this.imageUrl = imageUrl;
     }
 }

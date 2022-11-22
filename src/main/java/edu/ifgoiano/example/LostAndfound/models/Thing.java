@@ -1,22 +1,30 @@
 package edu.ifgoiano.example.LostAndfound.models;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "object")
-public class Object implements Serializable
+@Table
+(
+    name = "thing",
+    uniqueConstraints = 
+    {
+       @UniqueConstraint(columnNames = "name"),
+    }
+)
+public class Thing implements Serializable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = true)
-    private String description;
     @Column(nullable = false)
+    private String description;
+    @Column(nullable = true)
     private String imageUrl;
     @Column(nullable = false)
     private String lost;
