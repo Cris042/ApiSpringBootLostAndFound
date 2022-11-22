@@ -15,21 +15,17 @@ public class ThingDTO extends RepresentationModel<ThingDTO>
     @NotBlank
     @Nullable
     private String lost;
-    @NotBlank
-    @Nullable
-    private String imageUrl;
-
+   
     public ThingDTO()
     {
 
     }
 
-    public ThingDTO( String name, String description, String lost, String imageUrl )
+    public ThingDTO( String name, String description, String lost )
     {
         this.name = name;
         this.description = description;
         this.lost = lost;
-        this.imageUrl = imageUrl != null ? imageUrl : "Defalt.pnj";
     }
 
     public String getLost()
@@ -59,13 +55,4 @@ public class ThingDTO extends RepresentationModel<ThingDTO>
         this.name = name;
     }
 
-    public String getImageUrl() 
-    {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) 
-    {
-        this.imageUrl = imageUrl;
-    }
 }

@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -24,14 +26,27 @@ public class Thing implements Serializable
     private String name;
     @Column(nullable = false)
     private String description;
-    @Column(nullable = true)
-    private String imageUrl;
     @Column(nullable = false)
     private String lost;
     @Column(nullable = false)
     private LocalDateTime creationDate;
     @Column(nullable = false)
     private LocalDateTime dateUpdate;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "imagens", joinColumns = @JoinColumn(name = "id_thing"),inverseJoinColumns = @JoinColumn(name = "id_img"))
+    private Set<Image> imegens = new HashSet<>();
+
+ 
+    public Set<Image> getImegens() 
+    {
+        return imegens;
+    }
+
+    public void setImegens(Set<Image> imegens) 
+    {
+        this.imegens = imegens;
+    }
 
     public UUID getId() 
     {
@@ -61,16 +76,6 @@ public class Thing implements Serializable
     public void setDescription(String description) 
     {
         this.description = description;
-    }
-
-    public String getImageUrl() 
-    {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) 
-    {
-        this.imageUrl = imageUrl;
     }
 
     public String getLost() 

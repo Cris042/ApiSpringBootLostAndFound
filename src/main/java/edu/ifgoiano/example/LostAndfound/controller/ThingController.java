@@ -57,7 +57,7 @@ public class ThingController
         for(Thing thing : thingAll) 
         {
             UUID id = thing.getId();
-            ThingDTO thingObj = new ThingDTO(thing.getName(), thing.getDescription(), thing.getLost() , thing.getImageUrl() );
+            ThingDTO thingObj = new ThingDTO(thing.getName(), thing.getDescription(), thing.getLost() );
             thingObj.add( WebMvcLinkBuilder.linkTo( WebMvcLinkBuilder.methodOn( ThingController.class ).get( id ) ).withSelfRel() );
             thingList.add(thingObj);       
         }
@@ -75,7 +75,7 @@ public class ThingController
             throw new UnsupportedException("Not found!.");
         }
        
-        ThingDTO thingobj = new ThingDTO(obj.get().getName(), obj.get().getDescription(), obj.get().getLost() , obj.get().getImageUrl() );
+        ThingDTO thingobj = new ThingDTO(obj.get().getName(), obj.get().getDescription(), obj.get().getLost() );
         thingobj.add( WebMvcLinkBuilder.linkTo( WebMvcLinkBuilder.methodOn( ThingController.class ).getAll(null) ).withSelfRel() );
 
         return ResponseEntity.status(HttpStatus.OK).body( thingobj );

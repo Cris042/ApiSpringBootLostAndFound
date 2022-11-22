@@ -15,49 +15,49 @@ import java.util.List;
 public class ThingService
 {
     @Autowired
-    ThingRepository ThingRepository;
+    ThingRepository thingRepository;
     
     @Transactional
     public Thing save(Thing obj) 
     {
-        return ThingRepository.save( obj );
+        return thingRepository.save( obj );
     }
 
     public Optional<Thing> findByThingname(String name) 
     {
-        return ThingRepository.findByName( name );
+        return thingRepository.findByName( name );
     }
 
     public Boolean existsByThingname(String name)
     {
-        return ThingRepository.existsByName( name );
+        return thingRepository.existsByName( name );
     }
 
     public Optional<Thing> findByThingID(UUID id) 
     {
-        return ThingRepository.findById( id );
+        return thingRepository.findById( id );
     }
 
     public Boolean existsByThingID(UUID  id )
     {
-        return ThingRepository.existsById( id );
+        return thingRepository.existsById( id );
     }   
 
     @Transactional
     public void delete(Thing Thing) 
     {
-        ThingRepository.delete(Thing);
+        thingRepository.delete(Thing);
     }
 
     public List<Thing> findAll()
     {
-        return ThingRepository.findAll();
+        return thingRepository.findAll();
     }
 
     public void deleteAll(List<Thing> Thing)
     {
-        List<Thing> allThing = ThingRepository.findAll();
-        ThingRepository.deleteAll( allThing);
+        List<Thing> allThing = thingRepository.findAll();
+        thingRepository.deleteAll( allThing);
     }
 
     
