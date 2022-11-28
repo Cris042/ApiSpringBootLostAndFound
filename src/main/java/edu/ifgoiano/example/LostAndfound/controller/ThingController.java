@@ -29,11 +29,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.ifgoiano.example.LostAndfound.dtos.ThingDTO;
 import edu.ifgoiano.example.LostAndfound.dtos.ThingFoundDTO;
+import edu.ifgoiano.example.LostAndfound.exceptions.others.NotFoundException;
+import edu.ifgoiano.example.LostAndfound.exceptions.others.UnsupportedException;
 import edu.ifgoiano.example.LostAndfound.models.Thing;
 import edu.ifgoiano.example.LostAndfound.models.ThingFound;
-import edu.ifgoiano.example.LostAndfound.repository.ThingFoundRepository;
+import edu.ifgoiano.example.LostAndfound.service.ThingFoundService;
 import edu.ifgoiano.example.LostAndfound.service.ThingService;
-import edu.ifgoiano.example.LostAndfound.service.validation.UnsupportedException;
 
 
 @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
@@ -45,7 +46,7 @@ public class ThingController
     ThingService thingService;
 
     @Autowired
-    ThingFoundRepository thingFoundRepository;
+    ThingFoundService thingFoundService;
 
     @GetMapping("all")
     public ResponseEntity<List<ThingDTO>> getAll(@PageableDefault(page = 0, size = 10, sort = "id") Pageable pageable)
@@ -72,7 +73,7 @@ public class ThingController
 
         if (!obj.isPresent()) 
         {
-            throw new UnsupportedException("Not found!.");
+            throw new NotFoundException("Not found!.");
         }
        
         ThingDTO thingobj = new ThingDTO(obj.get().getName(), obj.get().getDescription(), obj.get().getLost() );
@@ -105,7 +106,7 @@ public class ThingController
 
         if (!obj.isPresent()) 
         {
-            throw new UnsupportedException("Not found!.");
+            throw new NotFoundException("Not found!.");
         }
         
         thingService.delete( obj.get() );
@@ -119,7 +120,7 @@ public class ThingController
 
         if (!obj.isPresent()) 
         {
-            throw new UnsupportedException("Not found!.");
+            throw new NotFoundException("Not found!.");
         }
 
         if( obj.get().getLost().equals("false") )
@@ -137,7 +138,7 @@ public class ThingController
         thingFoundEntities.setCreationDate(LocalDateTime.now( ZoneId.of("America/Sao_Paulo")));
         thingFoundEntities.setIdObject(id);
 
-        thingFoundRepository.save( thingFoundEntities );
+        thingFoundService.save( thingFoundEntities );
         thingService.save( thingEntities );
        
         return ResponseEntity.status(HttpStatus.OK).body( "Successfully Update!"  );
@@ -150,7 +151,7 @@ public class ThingController
 
         if (!obj.isPresent()) 
         {
-            throw new UnsupportedException("Not found!.");
+            throw new NotFoundException("Not found!.");
         }
         if( !obj.get().getName().equals( thingDTO.getName() ) )
         {

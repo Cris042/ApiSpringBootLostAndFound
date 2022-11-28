@@ -9,7 +9,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.example.demo.Services.validation.ExceptionResponse;
-import edu.ifgoiano.example.LostAndfound.service.validation.UnsupportedException;
+
+import edu.ifgoiano.example.LostAndfound.exceptions.others.UnsupportedException;
 
 
 @ControllerAdvice

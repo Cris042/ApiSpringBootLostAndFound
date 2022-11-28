@@ -1,4 +1,4 @@
-package edu.ifgoiano.example.LostAndfound.service.validation;
+package edu.ifgoiano.example.LostAndfound.exceptions;
 
 import java.io.Serializable;
 import java.sql.Date;

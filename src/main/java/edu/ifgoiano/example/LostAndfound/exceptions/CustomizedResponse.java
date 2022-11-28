@@ -1,4 +1,4 @@
-package edu.ifgoiano.example.LostAndfound.service.validation;
+package edu.ifgoiano.example.LostAndfound.exceptions;
 
 
 import org.springframework.http.HttpStatus;
@@ -24,4 +24,5 @@ public class CustomizedResponse extends ResponseEntityExceptionHandler
 
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

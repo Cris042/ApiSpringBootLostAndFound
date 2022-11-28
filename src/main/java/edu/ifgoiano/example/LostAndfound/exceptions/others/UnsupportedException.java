@@ -1,4 +1,4 @@
-package edu.ifgoiano.example.LostAndfound.service.validation;
+package edu.ifgoiano.example.LostAndfound.exceptions.others;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
