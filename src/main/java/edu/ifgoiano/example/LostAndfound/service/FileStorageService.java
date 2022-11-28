@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 
 import edu.ifgoiano.example.LostAndfound.config.FileStorageConfig;
 import edu.ifgoiano.example.LostAndfound.exceptions.file.FileStorageException;
+import edu.ifgoiano.example.LostAndfound.exceptions.file.MyFileNotFoundException;
 
 
 @Service
@@ -56,6 +59,24 @@ public class FileStorageService
         catch(Exception e) 
         {
             throw new FileStorageException("Could not store file "+ filename+ ". Please try again!", e);
+        }
+    }
+
+    public Resource loadFileAsResource(String filename) 
+    {
+        try
+        {
+            Path filePath = this.fileStorageLocation.resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            
+            if(resource.exists()) 
+                return resource;
+            else
+               throw new MyFileNotFoundException("File not found");
+        }
+        catch(Exception e) 
+        {
+            throw new MyFileNotFoundException("File not found"+ filename, e);
         }
     }
     

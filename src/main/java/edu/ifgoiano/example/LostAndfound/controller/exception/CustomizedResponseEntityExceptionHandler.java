@@ -10,6 +10,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.example.demo.Services.validation.ExceptionResponse;
 
+import edu.ifgoiano.example.LostAndfound.exceptions.file.FileStorageException;
+import edu.ifgoiano.example.LostAndfound.exceptions.file.MyFileNotFoundException;
+import edu.ifgoiano.example.LostAndfound.exceptions.others.NotFoundException;
 import edu.ifgoiano.example.LostAndfound.exceptions.others.UnsupportedException;
 
 
@@ -31,7 +34,45 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
             ex.getMessage(),
             request.getDescription(false));
 
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_GATEWAY);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(Exception ex, WebRequest request) 
+    {
+        ExceptionResponse exceptionResponse= new ExceptionResponse(
+            null,
+            ex.getMessage(),
+            request.getDescription(false)
+        );
+            
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    
+    @ExceptionHandler(MyFileNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleFileNotFoundExceptions(Exception ex, WebRequest request) 
+    {
+        ExceptionResponse exceptionResponse= new ExceptionResponse(
+            null,
+            ex.getMessage(),
+            request.getDescription(false)
+        );
+            
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    
+    @ExceptionHandler(FileStorageException.class)
+    public final ResponseEntity<ExceptionResponse> handleFilexceptions(Exception ex, WebRequest request) 
+    {
+        ExceptionResponse exceptionResponse= new ExceptionResponse(
+            null,
+            ex.getMessage(),
+            request.getDescription(false)
+        );
+            
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
     
