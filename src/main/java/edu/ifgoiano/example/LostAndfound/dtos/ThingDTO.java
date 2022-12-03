@@ -1,9 +1,14 @@
 package edu.ifgoiano.example.LostAndfound.dtos;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.lang.Nullable;
+
+import edu.ifgoiano.example.LostAndfound.models.Image;
 
 public class ThingDTO extends RepresentationModel<ThingDTO>
 {
@@ -15,18 +20,28 @@ public class ThingDTO extends RepresentationModel<ThingDTO>
     @NotBlank
     @Nullable
     private String lost;
-   
-    public ThingDTO()
-    {
 
-    }
+    private Set<Image> imagens = new HashSet<>();
 
-    public ThingDTO( String name, String description, String lost )
+    public ThingDTO( String name, String description, String lost, Set<Image> imagens )
     {
         this.name = name;
         this.description = description;
         this.lost = lost;
+        this.imagens = imagens;
     }
+
+    
+    public Set<Image> getImegens() 
+    {
+        return imagens;
+    }
+
+    public void setImegens(Set<Image> imagens) 
+    {
+        this.imagens = imagens;
+    }
+
 
     public String getLost()
     {

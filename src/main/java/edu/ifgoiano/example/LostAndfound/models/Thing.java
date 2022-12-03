@@ -35,17 +35,17 @@ public class Thing implements Serializable
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "imagens", joinColumns = @JoinColumn(name = "id_thing"),inverseJoinColumns = @JoinColumn(name = "id_img"))
-    private Set<Image> imegens = new HashSet<>();
+    private Set<Image> imagens = new HashSet<>();
 
  
     public Set<Image> getImegens() 
     {
-        return imegens;
+        return imagens;
     }
 
-    public void setImegens(Set<Image> imegens) 
+    public void setImegens(Set<Image> imagens) 
     {
-        this.imegens = imegens;
+        this.imagens = imagens;
     }
 
     public UUID getId() 

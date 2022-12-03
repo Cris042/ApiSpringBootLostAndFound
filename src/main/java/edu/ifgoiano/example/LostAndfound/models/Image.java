@@ -1,7 +1,6 @@
 package edu.ifgoiano.example.LostAndfound.models;
 
 import javax.persistence.*;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.util.UUID;
 
@@ -14,7 +13,7 @@ import java.util.UUID;
        @UniqueConstraint(columnNames = "name"),
     }
 )
-public class Image extends RepresentationModel<Image>
+public class Image 
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,13 +21,36 @@ public class Image extends RepresentationModel<Image>
     @Column(nullable = false)
     private String name;
 
+    private String url;
+
+    public Image(String name, String url)
+    {
+        this.name = name;
+        this.url = url;
+    }
+
+    public Image()
+    {
+        
+    }
+    
+    public String getUrl() 
+    {
+        return url;
+    }
+
+    public void setUrl(String url) 
+    {
+        this.url = url;
+    }
+
     public UUID getId() 
     {
         return id;
     }
-    public void setId(UUID idImg) 
+    public void setId(UUID id) 
     {
-        this.id = idImg;
+        this.id = id;
     }
 
     public String getName() 

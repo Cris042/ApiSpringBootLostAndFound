@@ -1,12 +1,19 @@
 package edu.ifgoiano.example.LostAndfound.controller;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,7 +28,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.core.io.Resource;
 
+import edu.ifgoiano.example.LostAndfound.exceptions.others.NotFoundException;
+import edu.ifgoiano.example.LostAndfound.models.Image;
+import edu.ifgoiano.example.LostAndfound.models.Thing;
 import edu.ifgoiano.example.LostAndfound.service.FileStorageService;
+import edu.ifgoiano.example.LostAndfound.service.ImageService;
+import edu.ifgoiano.example.LostAndfound.service.ThingService;
 import edu.ifgoiano.example.LostAndfound.vo.UploadFileResponseVO;
 
 
@@ -33,28 +45,56 @@ public class ThingImageController
 
     @Autowired
     private FileStorageService fileStorageService;
+ 
+    @Autowired
+    ThingService thingService;
 
-    @PostMapping("/uploadFile")
-    public UploadFileResponseVO uploadFile(@RequestParam("file") MultipartFile file) 
+    @Autowired
+    ImageService imageService;
+
+    @PostMapping("/uploadFile/{id}")
+    public UploadFileResponseVO uploadFile(@RequestParam("file") MultipartFile file, @PathVariable(value = "id") UUID id ) 
     {
         logger.info("Storingfile todisk");
+
+        Optional<Thing> obj = thingService.findByThingID(id);
+
+        if (!obj.isPresent()) 
+        {
+            throw new NotFoundException("Thing Not found!.");
+        }
+
+        Set<Image> image = new HashSet<>();
 
         var filename = fileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                                .path("/api/thing/downloadFile/")
-                                .path(filename)
-                                .toUriString();
+        .path("/api/thing/downloadFile/")
+        .path(filename)
+        .toUriString();
+
+        var imageEntities = new Image( filename, fileDownloadUri );
+
+        imageService.save( imageEntities );
+        image.add(imageEntities);
+ 
+        var thingEntities = new Thing();
+        BeanUtils.copyProperties( obj.get(), thingEntities);  
+        thingEntities.setDateUpdate(LocalDateTime.now( ZoneId.of("America/Sao_Paulo")) );
+        thingEntities.setImegens(image); 
+
+        thingService.save( thingEntities );
+
                     
         return new UploadFileResponseVO(filename, fileDownloadUri, file.getContentType(), file.getSize());
     }
 
     @PostMapping("/uploadMultFile")
-    public List<UploadFileResponseVO> uploadMultFile(@RequestParam("files") MultipartFile[] files) 
+    public List<UploadFileResponseVO> uploadMultFile(@RequestParam("files") MultipartFile[] files, @PathVariable(value = "id") UUID id) 
     {
         logger.info("Storingfiles todisk");
 
-        return Arrays.asList(files).stream().map(file-> uploadFile(file)).collect(Collectors.toList());
+        return Arrays.asList(files).stream().map(file-> uploadFile(file, id)).collect(Collectors.toList());
     }
 
     @GetMapping("/downloadFile/{filename:.+}")

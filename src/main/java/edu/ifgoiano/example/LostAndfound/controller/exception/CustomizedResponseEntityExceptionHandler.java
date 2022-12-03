@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.demo.Services.validation.ExceptionResponse;
-
+import edu.ifgoiano.example.LostAndfound.exceptions.ExceptionResponse;
 import edu.ifgoiano.example.LostAndfound.exceptions.file.FileStorageException;
 import edu.ifgoiano.example.LostAndfound.exceptions.file.MyFileNotFoundException;
 import edu.ifgoiano.example.LostAndfound.exceptions.others.NotFoundException;

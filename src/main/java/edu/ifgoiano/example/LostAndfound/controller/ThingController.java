@@ -58,7 +58,7 @@ public class ThingController
         for(Thing thing : thingAll) 
         {
             UUID id = thing.getId();
-            ThingDTO thingObj = new ThingDTO(thing.getName(), thing.getDescription(), thing.getLost() );
+            ThingDTO thingObj = new ThingDTO(thing.getName(), thing.getDescription(), thing.getLost(), thing.getImegens() );
             thingObj.add( WebMvcLinkBuilder.linkTo( WebMvcLinkBuilder.methodOn( ThingController.class ).get( id ) ).withSelfRel() );
             thingList.add(thingObj);       
         }
@@ -76,7 +76,7 @@ public class ThingController
             throw new NotFoundException("Not found!.");
         }
        
-        ThingDTO thingobj = new ThingDTO(obj.get().getName(), obj.get().getDescription(), obj.get().getLost() );
+        ThingDTO thingobj = new ThingDTO(obj.get().getName(), obj.get().getDescription(), obj.get().getLost(), obj.get().getImegens() );
         thingobj.add( WebMvcLinkBuilder.linkTo( WebMvcLinkBuilder.methodOn( ThingController.class ).getAll(null) ).withSelfRel() );
 
         return ResponseEntity.status(HttpStatus.OK).body( thingobj );
@@ -89,14 +89,16 @@ public class ThingController
         {
             throw new UnsupportedException("Conflict: Name is already in use! !");
         }
+       
+        thingDTO.setLost("true");
 
         var thingEntities = new Thing();
         BeanUtils.copyProperties( thingDTO, thingEntities);  
         thingEntities.setCreationDate(LocalDateTime.now( ZoneId.of("America/Sao_Paulo")) );
         thingEntities.setDateUpdate(LocalDateTime.now( ZoneId.of("America/Sao_Paulo")) );
-        thingEntities.setLost("true");
+        thingService.save( thingEntities );
 
-        return ResponseEntity.status(HttpStatus.CREATED).body( thingService.save( thingEntities ));
+        return ResponseEntity.status(HttpStatus.CREATED).body( thingDTO );
     }   
 
     @DeleteMapping("{id}")
