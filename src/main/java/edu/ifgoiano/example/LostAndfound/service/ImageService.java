@@ -17,35 +17,32 @@ public class ImageService
     @Autowired
     ImageRepository imageRepository;
 
-    @Autowired
-    ImageRepository thingRepository;
-    
     @Transactional
     public Image save(Image obj) 
     {
-        return thingRepository.save( obj );
+        return imageRepository.save( obj );
     }
 
     public Optional<Image> findByImagename(String name) 
     {
-        return thingRepository.findByName( name );
+        return imageRepository.findByName( name );
     }
 
     @Transactional
     public void delete(Image Image) 
     {
-        thingRepository.delete(Image);
+         imageRepository.delete(Image);
     }
 
     public List<Image> findAll()
     {
-        return thingRepository.findAll();
+        return imageRepository.findAll();
     }
 
     public void deleteAll(List<Image> Image)
     {
-        List<Image> allImage = thingRepository.findAll();
-        thingRepository.deleteAll( allImage);
+        List<Image> allImage =  imageRepository.findAll();
+         imageRepository.deleteAll( allImage);
     }
 
 }
