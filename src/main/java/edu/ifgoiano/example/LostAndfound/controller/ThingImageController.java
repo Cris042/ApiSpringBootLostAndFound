@@ -64,7 +64,8 @@ public class ThingImageController
             throw new NotFoundException("Thing Not found!.");
         }
 
-        Set<Image> image = new HashSet<>();
+        Set<Image> imagensOLD = obj.get().getImegens();
+        Set<Image> images = new HashSet<>();
 
         var filename = fileStorageService.storeFile(file);
 
@@ -76,12 +77,18 @@ public class ThingImageController
         var imageEntities = new Image( filename, fileDownloadUri );
 
         imageService.save( imageEntities );
-        image.add(imageEntities);
+
+        images.add(imageEntities);
+
+        imagensOLD.forEach( imagenOLD  -> 
+        {
+            images.add( imagenOLD );
+        });
  
         var thingEntities = new Thing();
         BeanUtils.copyProperties( obj.get(), thingEntities);  
         thingEntities.setDateUpdate(LocalDateTime.now( ZoneId.of("America/Sao_Paulo")) );
-        thingEntities.setImegens(image); 
+        thingEntities.setImegens(images); 
 
         thingService.save( thingEntities );
 
